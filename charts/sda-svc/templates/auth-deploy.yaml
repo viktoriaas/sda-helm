@@ -131,6 +131,7 @@ spec:
               value: {{ .Values.global.ingress.hostName.auth }}
           initialDelaySeconds: 20
           periodSeconds: 10
+          timeoutSeconds: 10
         readinessProbe:
           httpGet:
             port: auth
@@ -141,6 +142,7 @@ spec:
               value: {{ .Values.global.ingress.hostName.auth }}
           initialDelaySeconds: 20
           periodSeconds: 10
+          timeoutSeconds: 10
         resources:
 {{ toYaml .Values.s3Inbox.resources | trim | indent 10 }}
         volumeMounts:
