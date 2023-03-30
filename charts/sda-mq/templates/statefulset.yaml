@@ -57,6 +57,12 @@ spec:
       - name: broker
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+        command:
+          - /bin/sh
+          - -c
+          - |
+            chmod g-rw /var/lib/rabbitmq/.erlang.cookie;
+            /usr/local/bin/docker-entrypoint.sh /opt/rabbitmq/sbin/rabbitmq-server
         securityContext:
           allowPrivilegeEscalation: false
 {{- if .Values.extraSecurityContext }}

@@ -10,15 +10,15 @@ check_ssl_certificate = False
 encoding = UTF-8
 encrypt = False
 guess_mime_type = True
-host_base = https://localhost:9000
-host_bucket = https://localhost:9000
+host_base = mega.dyn.cloud.e-infra.cz
+host_bucket = mega.dyn.cloud.e-infra.cz
 use_https = True
 socket_timeout = 30
 ca_certs_file = sda-svc/files/ca.crt
 EOF
 fi
 
-kubectl port-forward "$(kubectl get pods | grep minio | awk '{print $1}')" 9000:9000 &
+#kubectl port-forward "$(kubectl get pods | grep minio | awk '{print $1}')" 9000:9000 &
 
 # Wait for port forwarding to be active
 sleep 3

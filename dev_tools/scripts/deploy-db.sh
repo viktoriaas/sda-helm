@@ -5,8 +5,9 @@ DB_IN_PASS=$(grep pg_in_password sda-deploy-init/config/trace.yml | awk '{print 
 DB_OUT_PASS=$(grep pg_out_password sda-deploy-init/config/trace.yml | awk '{print $2}' | sed -e 's/\"//g')
 
 if [ "$1" = "issuer" ]; then
-    helm install postgres charts/sda-db \
-        --set securityPolicy.create=false,global.pg_in_password="$DB_IN_PASS",global.pg_out_password="$DB_OUT_PASS",global.tls.issuer=ca-issuer
+    helm install postgres /Users/astralmiau/work/sda-helm-viktoriaas/charts/sda-db  -f sda-db2.yaml --set global.pg_in_password="$DB_IN_PASS",global.pg_out_password="$DB_OUT_PASS" -n ega-ns
+    #helm install postgres charts/sda-db \
+    #    --set securityPolicy.create=false,global.pg_in_password="$DB_IN_PASS",global.pg_out_password="$DB_OUT_PASS",global.tls.issuer=ca-issuer
 else
     ## sda-db certs
     kubectl create secret generic db-certs \

@@ -8,8 +8,9 @@ fi
 HASH="DI0kJIvQHptGSBH2coZ25dsjjN9Z4uxp8hAyqtd9H7rb/SBO"
 
 if [ "$2" = "issuer" ]; then
-    helm install broker charts/sda-mq \
-        --set securityPolicy.create=false,global.adminUser=admin,global.adminPasswordHash="$HASH",global.shovel.host=cega-mq,global.shovel.user=lega,global.shovel.pass="$CEGA_MQ_PASS",global.shovel.vhost=lega,global.vhost=sda,global.tls.issuer=ca-issuer,global.tls.verifyPeer=true
+    helm upgrade broker /Users/astralmiau/work/sda-helm-viktoriaas/charts/sda-mq --install -f sda-mq.yaml -n ega-ns
+    #helm install broker charts/sda-mq \
+    #    --set securityPolicy.create=false,global.adminUser=admin,global.adminPasswordHash="$HASH",global.shovel.host=cega-mq,global.shovel.user=lega,global.shovel.pass="$CEGA_MQ_PASS",global.shovel.vhost=lega,global.vhost=sda,global.tls.issuer=ca-issuer,global.tls.verifyPeer=true
 else
 
     ## sda-mq certs

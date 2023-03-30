@@ -7,7 +7,7 @@ spec:
   # Secret names are always required.
   secretName: {{ template "sda.fullname" . }}-certs
 
-  duration: 2160h # 90d
+  duration: 8760h # 90d
 
   # The use of the common name field has been deprecated since 2000 and is
   # discouraged from being used.

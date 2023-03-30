@@ -51,7 +51,9 @@ global:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
 
-  logLevel: "info"
+  log:
+    level: "info"
+    format: "json"
 
 # utilize network isolation
 # Make sure you’ve configured a network provider with network policy support.
@@ -132,6 +134,7 @@ global:
     volumePath: "/backup"
     nfsServer: ""
     nfsPath: ""
+    copyHeader: false
 
   auth:
     # @param elixirID, client ID to the Elixir OIDC for the service endpoint 
@@ -175,6 +178,7 @@ global:
   # name of the public file, required for testing
     publicFile: ""
     passphrase: ""
+    backupPubKey: ""
 
   db:
     host: ""
@@ -301,9 +305,9 @@ credentials:
 
 auth:
   name: auth
-  replicaCount: 1
+  replicaCount: 2
   repository: ghcr.io/neicnordic/sda-auth
-  imageTag: v0.6.11
+  imageTag: v0.6.46
   imagePullPolicy: IfNotPresent
   resources:
     requests:
@@ -324,7 +328,7 @@ backup:
   deploy: false
   replicaCount: 1
   repository: ghcr.io/neicnordic/sda-pipeline
-  imageTag: v0.2.25
+  imageTag: v0.3.67
   imagePullPolicy: IfNotPresent
   resources:
     requests:
@@ -343,9 +347,9 @@ backup:
 doa:
   name: doa
   repository: ghcr.io/neicnordic/sda-doa
-  imageTag: v1.6.4
+  imageTag: v1.6.43
   imagePullPolicy: IfNotPresent
-  replicaCount: 1
+  replicaCount: 2
   resources:
     requests:
       memory: "256Mi"
@@ -365,9 +369,9 @@ doa:
 
 download:
   name: download
-  replicaCount: 1
+  replicaCount: 2
   repository: ghcr.io/neicnordic/sda-download
-  imageTag: v1.6.7
+  imageTag: v1.6.94
   imagePullPolicy: IfNotPresent
   resources:
     requests:
@@ -387,7 +391,7 @@ finalize:
   name: finalize
   replicaCount: 1
   repository: ghcr.io/neicnordic/sda-pipeline
-  imageTag: v0.2.25
+  imageTag: v0.3.67
   imagePullPolicy: IfNotPresent
   resources:
     requests:
@@ -407,7 +411,7 @@ ingest:
   name: ingest
   replicaCount: 1
   repository: ghcr.io/neicnordic/sda-pipeline
-  imageTag: v0.2.25
+  imageTag: v0.3.67
   imagePullPolicy: IfNotPresent
   resources:
     requests:
@@ -428,7 +432,7 @@ intercept:
   name: ingest
   replicaCount: 1
   repository: ghcr.io/neicnordic/sda-pipeline
-  imageTag: v0.2.25
+  imageTag: v0.3.67
   imagePullPolicy: IfNotPresent
   resources:
     requests:
@@ -447,7 +451,7 @@ intercept:
 mapper:
   replicaCount: 1
   repository: ghcr.io/neicnordic/sda-pipeline
-  imageTag: v0.2.25
+  imageTag: v0.3.67
   imagePullPolicy: IfNotPresent
   resources:
     requests:
@@ -466,9 +470,9 @@ mapper:
 s3Inbox:
   name: s3Inbox
   repository: ghcr.io/neicnordic/sda-s3proxy
-  imageTag: v0.1.44
+  imageTag: v0.1.124
   imagePullPolicy: IfNotPresent
-  replicaCount: 1
+  replicaCount: 2
   resources:
     requests:
       memory: "128Mi"
@@ -487,9 +491,9 @@ s3Inbox:
 sftpInbox:
   name: sftpInbox
   repository: ghcr.io/neicnordic/sda-inbox-sftp
-  imageTag: v1.7.18
+  imageTag: v1.7.63
   imagePullPolicy: IfNotPresent
-  replicaCount: 1
+  replicaCount: 2
   resources:
     requests:
       memory: "128Mi"
@@ -520,7 +524,7 @@ releasetest:
 verify:
   replicaCount: 1
   repository: ghcr.io/neicnordic/sda-pipeline
-  imageTag: v0.2.25
+  imageTag: v0.3.67
   imagePullPolicy: IfNotPresent
   resources:
     requests:

@@ -1,8 +1,9 @@
 #!/bin/bash
-set -e
+set -x
 
 basedir="sda-deploy-init/config"
 
+export LC_ALL=C
 if ! [ -d "$basedir" ]; then
   mkdir -p "${basedir}"
 fi
@@ -29,9 +30,21 @@ yq e -i '
 
 crypt4gh generate -n "${basedir}/c4gh" -p "$G4GH"
 
-kubectl create secret generic c4gh --from-file="${basedir}/c4gh.sec.pem" --from-file="${basedir}/c4gh.pub.pem" --from-literal=passphrase="${G4GH}"
+if [ -z "$1" ]
+  then
+      kubectl create secret generic c4gh --from-file="${basedir}/c4gh.sec.pem" --from-file="${basedir}/c4gh.pub.pem" --from-literal=passphrase="${G4GH}"
+  else
+      kubectl create secret generic c4gh --from-file="${basedir}/c4gh.sec.pem" --from-file="${basedir}/c4gh.pub.pem" --from-literal=passphrase="${G4GH}" -n $1
+fi
 
 # secret for the OIDC keypair
 openssl ecparam -name prime256v1 -genkey -noout -out "${basedir}/jwt.key"
 openssl ec -in "${basedir}/jwt.key" -pubout -out "${basedir}/jwt.pub"
-kubectl create secret generic oidc --from-file="${basedir}/jwt.key" --from-file="${basedir}/jwt.pub"
+
+if [ -z "$1" ]
+  then
+      kubectl create secret generic oidc --from-file="${basedir}/jwt.key" --from-file="${basedir}/jwt.pub"
+  else
+      kubectl create secret generic oidc --from-file="${basedir}/jwt.key" --from-file="${basedir}/jwt.pub" -n $1
+fi
+
